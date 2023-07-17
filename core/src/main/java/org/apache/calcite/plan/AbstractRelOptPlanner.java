@@ -164,6 +164,7 @@ public abstract class AbstractRelOptPlanner implements RelOptPlanner {
             + "existing rule=" + existingRule + "; new rule=" + rule);
       }
     }
+    rule.register(this);
     return true;
   }
 

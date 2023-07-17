@@ -16,8 +16,10 @@
  */
 package org.apache.calcite.rel.rules;
 
+import org.apache.calcite.plan.RelOptPlanner;
 import org.apache.calcite.plan.RelOptRuleCall;
 import org.apache.calcite.plan.RelRule;
+import org.apache.calcite.rel.RelCollationTraitDef;
 import org.apache.calcite.rel.RelNode;
 import org.apache.calcite.rel.core.Sort;
 import org.apache.calcite.rel.core.Union;
@@ -105,6 +107,14 @@ public class SortUnionTransposeRule
         sort.copy(sort.getTraitSet(), unionCopy, sort.getCollation(),
             sort.offset, sort.fetch);
     call.transformTo(result);
+  }
+
+  @Override
+  public void register(RelOptPlanner planner) {
+    if (!planner.getRelTraitDefs().contains(RelCollationTraitDef.INSTANCE)) {
+      throw new RuntimeException(
+          "To register SortUnionTransposeRule, RelCollationTraitDef must be in planner.getRelTraitDefs.");
+    }
   }
 
   /** Rule configuration. */

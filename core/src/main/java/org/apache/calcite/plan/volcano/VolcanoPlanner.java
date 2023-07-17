@@ -446,6 +446,8 @@ public class VolcanoPlanner extends AbstractRelOptPlanner {
       }
     }
 
+    rule.register(this);
+
     return true;
   }
 

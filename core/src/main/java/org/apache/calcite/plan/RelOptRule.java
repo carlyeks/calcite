@@ -678,6 +678,9 @@ public abstract class RelOptRule {
     return description;
   }
 
+  public void register(RelOptPlanner planner) {
+  }
+
   /**
    * Operand to an instance of the converter rule.
    */

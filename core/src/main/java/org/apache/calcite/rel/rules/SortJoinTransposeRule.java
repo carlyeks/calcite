@@ -16,6 +16,7 @@
  */
 package org.apache.calcite.rel.rules;
 
+import org.apache.calcite.plan.RelOptPlanner;
 import org.apache.calcite.plan.RelOptRuleCall;
 import org.apache.calcite.plan.RelRule;
 import org.apache.calcite.rel.RelCollation;
@@ -122,6 +123,14 @@ public class SortJoinTransposeRule
     }
 
     return true;
+  }
+
+  @Override
+  public void register(RelOptPlanner planner) {
+    if (!planner.getRelTraitDefs().contains(RelCollationTraitDef.INSTANCE)) {
+      throw new RuntimeException(
+          "To register SortJoinTransposeRule, RelCollationTraitDef must be in planner.getRelTraitDefs.");
+    }
   }
 
   @Override public void onMatch(RelOptRuleCall call) {
